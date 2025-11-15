@@ -14,10 +14,16 @@ const app = express();
 
 // CORS
 app.use(cors({
-    origin: ["http://localhost:5173", "https://blogclient-chi.vercel.app"],
+    origin: [
+        "http://localhost:5173",
+        "https://blogclient-lz8lrb098-kathiravans-projects-ca8e7c48.vercel.app",
+        "https://blogclient-chi.vercel.app"
+    ],
     credentials: true,
-    optionsSuccessStatus: 200
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 
 // Middlewares
 app.use(cookieParser());
