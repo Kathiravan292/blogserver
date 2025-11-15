@@ -14,7 +14,7 @@ const app = express();
 
 // CORS
 app.use(cors({
-    origin: ["http://localhost:5173", "https://blogclient-chi.vercel.app/"],
+    origin: ["http://localhost:5173", "https://blogclient-chi.vercel.app"],
     credentials: true,
     optionsSuccessStatus: 200
 }));
