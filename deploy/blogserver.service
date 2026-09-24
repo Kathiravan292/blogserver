@@ -1,0 +1,38 @@
+[Unit]
+Description=blogserver NestJS API
+Documentation=https://github.com/Kathiravan292/blogserver
+# network-online (not just network) so the first Atlas connection does not race DNS.
+After=network-online.target
+Wants=network-online.target
+# Give up only if it fails 5 times inside a minute, so a bad deploy surfaces in
+# `systemctl status` instead of looping forever. These belong in [Unit], not
+# [Service], on systemd 229 and newer.
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+
+# The app loads .env through @nestjs/config, which reads it relative to the working
+# directory. Keeping WorkingDirectory here means the server runs exactly as it does
+# locally, with no second copy of the configuration to keep in sync.
+WorkingDirectory=/home/ec2-user/blogserver
+ExecStart=/usr/bin/node dist/main.js
+
+Restart=always
+RestartSec=5
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=blogserver
+
+# The service only ever reads from disk, so it can run with the filesystem locked down.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target
