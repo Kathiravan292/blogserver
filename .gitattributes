@@ -1,0 +1,12 @@
+# Normalise line endings to LF both in the repository and in the working tree.
+#
+# Without this, a Windows checkout (core.autocrlf=true) writes CRLF, Prettier
+# rewrites the same files with LF, and every lint run leaves the tree looking
+# dirty. More importantly, the deploy scripts must reach Linux with LF endings:
+# a CRLF shebang fails with "bad interpreter: /usr/bin/env bash^M".
+* text=auto eol=lf
+
+# Binary assets must never be touched.
+*.png binary
+*.jpg binary
+*.ico binary
